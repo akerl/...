@@ -14,7 +14,7 @@ Usage: ... [options] command [command-options]
 
 Commands:
     conf conf-file-path | conf-file-url | <stdin>
-	      - Put content into the .../conf configuration file.
+              - Put content into the .../conf configuration file.
     backup    - Backup all the dot files that would be changed by 'install'.
     install   - Copy or link all the dot files into your $HOME directory.
       -h | --hardlink Use hardlinks (default)
@@ -190,6 +190,8 @@ sub setup {
     $config->{install_method} ||= 'hardlink';
     die "Error: invalid value for conf setting 'install_method'\n"
         unless $config->{install_method} =~ /^(hardlink|symlink|copy)$/;
+
+    $config->{inclusions} ||= [];
 
     my ($sec, $min, $hour, $day, $mon, $year) = localtime(time);
     $year += 1900;
@@ -671,17 +673,20 @@ sub _all_files {
     my $class = shift;
     my $get_all = shift || 0;
     my $all_files = {};
+    my @inclusions = @{$config->{inclusions}};
     for my $entry ($class->_all_dot_paths) {
         my $path = $entry->{path};
         $class->_check_path($path);
         for my $file (`(cd $path; find -L . -type f)`) {
             $file =~ s!^\./!!;
             chomp($file);
-            next unless $file =~ /^(?:\.|bin\/)/;
-            next if $file =~ /(\.sw.|~)$/;
-            next if $file =~ /\.git\//;
-            next if $file =~ /\.(git|gitignore|gitmodules)$/;
-            next if $file =~ /^\.\.\.(Makefile|deps)/;
+            unless (grep { $file eq $_ } @inclusions ) {
+                next unless $file =~ /^(?:\.|bin\/)/;
+                next if $file =~ /(\.sw.|~)$/;
+                next if $file =~ /\.git\//;
+                next if $file =~ /\.(git|gitignore|gitmodules)$/;
+                next if $file =~ /^\.\.\.(Makefile|deps)/;
+            }
             if (! $all_files->{$file}) {
                 $all_files->{$file} = $path;
             }
