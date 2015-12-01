@@ -613,8 +613,6 @@ sub _up_to_date {
     if ('symlink' eq $method) {
         return readlink($dst) eq $src
     }
-    return $class->_up_to_date($src, $dst, 'symlink') if -l $src;
-    return 0 if -l $src ne -l $dst;
     if ('copy' eq $method) {
         return 0 if _inode_of($src) == _inode_of($dst);
         open S, $src or die;
