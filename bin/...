@@ -191,6 +191,12 @@ sub setup {
     die "Error: invalid value for conf setting 'install_method'\n"
         unless $config->{install_method} =~ /^(hardlink|symlink|copy)$/;
 
+    $config->{force} =
+        not(exists($config->{force})) ? 0 :
+        $config->{force} =~ /^(on|true|1)$/ ? 1 :
+        $config->{force} =~ /^(off|false|0)$/ ? 0 :
+        die "Error: invalid value for conf setting 'force'\n";
+
     my ($sec, $min, $hour, $day, $mon, $year) = localtime(time);
     $year += 1900;
     $mon++;
@@ -399,8 +405,11 @@ sub _update_one {
             warn "$path exists, but is not a git repo. Ignoring.";
         }
         else {
+            my $reset = 'git reset --hard HEAD';
+            my $clean = 'git clean -f';
             my $pull = 'git pull --ff-only';
             my $submods = 'git submodule update --init';
+            $class->_run_sys("(cd $path && $clean && $reset)") if $config->{force}; 
             $class->_run_sys("(cd $path && $pull && $submods)");
             $class->_make(update => $path);
         }
