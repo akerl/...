@@ -693,6 +693,7 @@ sub _all_files {
                 next if $file =~ /\.git\//;
                 next if $file =~ /\.(git|gitignore|gitmodules)$/;
                 next if $file =~ /^\.\.\.(Makefile|deps)/;
+                next if $file =~ /^\.prospectus/;
             }
             if (! $all_files->{$file}) {
                 $all_files->{$file} = $path;
