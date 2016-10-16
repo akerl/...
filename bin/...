@@ -673,6 +673,7 @@ sub _all_files {
     my $class = shift;
     my $get_all = shift || 0;
     my $all_files = {};
+    my @exclusions = @{$config->{exclusions}};
     for my $entry ($class->_all_dot_paths) {
         my $path = $entry->{path};
         $class->_check_path($path);
