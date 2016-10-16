@@ -199,6 +199,8 @@ sub setup {
         $config->{force} =~ /^(off|false|0)$/ ? 0 :
         die "Error: invalid value for conf setting 'force'\n";
 
+    $config->{exclusions} ||= [];
+
     my ($sec, $min, $hour, $day, $mon, $year) = localtime(time);
     $year += 1900;
     $mon++;
@@ -693,7 +695,7 @@ sub _all_files {
                 next if $file =~ /\.git\//;
                 next if $file =~ /\.(git|gitignore|gitmodules)$/;
                 next if $file =~ /^\.\.\.(Makefile|deps)/;
-                next if $file =~ /^\.prospectus/;
+                next if grep { $file eq $_ } @exclusions;
             }
             if (! $all_files->{$file}) {
                 $all_files->{$file} = $path;
