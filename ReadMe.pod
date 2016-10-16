@@ -18,7 +18,8 @@ It adds the following changes:
 
 * Allow for force resetting of git repo - https://github.com/ingydotnet/.../pull/24
 * remove symlink checks for source - https://github.com/ingydotnet/.../pull/23
-* support inclusio - https://github.com/ingydotnet/.../pull/22
+* support inclusion - https://github.com/ingydotnet/.../pull/22
+* support exclusion - https://github.com/ingydotnet/.../pull/26
 
 =head1 Quick Install
 
