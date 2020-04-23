@@ -16,10 +16,13 @@ This repo is modified from the upstream https://github.com/ingydotnet/...
 
 It adds the following changes:
 
-* Allow for force resetting of git repo - https://github.com/ingydotnet/.../pull/24
-* remove symlink checks for source - https://github.com/ingydotnet/.../pull/23
-* support inclusion - https://github.com/ingydotnet/.../pull/22
-* support exclusion - https://github.com/ingydotnet/.../pull/26
+=item * Allow for force resetting of git repo - https://github.com/ingydotnet/.../pull/24
+
+=item * remove symlink checks for source - https://github.com/ingydotnet/.../pull/23
+
+=item * support inclusion - https://github.com/ingydotnet/.../pull/22
+
+=item * support exclusion - https://github.com/ingydotnet/.../pull/26
 
 =head1 Quick Install
 
